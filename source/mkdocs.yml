@@ -1,1 +1,16 @@
-site_name: My Docs
+site_name: Портфолио лабораторных работ
+site_description: Сайт с отчетами по лабораторным работам
+site_author: Nikita
+site_dir: ../docs
+
+theme:
+  name: material
+  language: ru
+
+nav:
+  - Главная: index.md
+  - Об авторе: about.md
+  - Лабораторные работы:
+      - Обзор раздела: labs/index.md
+      - Лабораторная работа №1: labs/lab1.md
+      - Шаблон отчёта: labs/template.md
