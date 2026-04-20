@@ -6,6 +6,9 @@ import numpy as np
 import pandas as pd
 import seaborn as sns
 
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+PLOTS_DIR = os.path.join(BASE_DIR, "plots")
+DATA_DIR = os.path.join(BASE_DIR, "data")
 
 # ============================================================
 # 1. СОЗДАНИЕ И ОБРАБОТКА МАССИВОВ
@@ -182,14 +185,13 @@ def solve_linear_system(a: np.ndarray, b: np.ndarray) -> np.ndarray:
 def load_dataset(path: str = "data/students_scores.csv") -> np.ndarray:
     """
     Загрузить CSV и вернуть NumPy-массив.
-
-    Args:
-        path: Путь к CSV-файлу.
-
-    Returns:
-        numpy.ndarray: Загруженные данные в виде массива.
     """
-    return pd.read_csv(path).to_numpy()
+    if os.path.exists(path):
+        real_path = path
+    else:
+        real_path = os.path.join(BASE_DIR, path)
+
+    return pd.read_csv(real_path).to_numpy()
 
 
 def statistical_analysis(data: np.ndarray) -> dict[str, Any]:
@@ -237,8 +239,7 @@ def normalize_data(data: np.ndarray) -> np.ndarray:
 # ============================================================
 
 def _ensure_plots_dir() -> None:
-    """Создать папку plots, если её нет."""
-    os.makedirs("plots", exist_ok=True)
+    os.makedirs(PLOTS_DIR, exist_ok=True)
 
 
 def plot_histogram(data: np.ndarray) -> None:
@@ -255,7 +256,7 @@ def plot_histogram(data: np.ndarray) -> None:
     plt.xlabel("Оценка")
     plt.ylabel("Частота")
     plt.tight_layout()
-    plt.savefig("plots/histogram.png")
+    plt.savefig(os.path.join(PLOTS_DIR, "histogram.png"))
     plt.close()
 
 
@@ -271,7 +272,7 @@ def plot_heatmap(matrix: np.ndarray) -> None:
     sns.heatmap(matrix, annot=True, cmap="viridis")
     plt.title("Тепловая карта корреляции")
     plt.tight_layout()
-    plt.savefig("plots/heatmap.png")
+    plt.savefig(os.path.join(PLOTS_DIR, "heatmap.png"))
     plt.close()
 
 
@@ -291,7 +292,7 @@ def plot_line(x: np.ndarray, y: np.ndarray) -> None:
     plt.ylabel("Оценка")
     plt.grid(True)
     plt.tight_layout()
-    plt.savefig("plots/line_plot.png")
+    plt.savefig(os.path.join(PLOTS_DIR, "line_plot.png"))
     plt.close()
 
 
